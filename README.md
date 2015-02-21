@@ -17,3 +17,9 @@ Matrix calculations:
   
 Numerical integration:
   - Riemann integral calculator
+
+
+##ToDo
+  - Add more numerical integration formulas
+  - Add methods for solving equations
+  - Add methods of interpolation
