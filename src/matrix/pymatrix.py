@@ -1,12 +1,22 @@
 import math
 
+
 def print_matrix(matrix):
+    """
+    This function prettyprints a matrix
+    :param matrix: The matrix to prettyprint
+    :return: All the values stored into the matrix
+    """
     for i in range(len(matrix)):
         print(matrix[i])
 
 
-# transpose matrix
 def transpose(matrix):
+    """
+    This function transposes a matrix
+    :param matrix: The matrix to transpose
+    :return: The transposed matrix
+    """
     cols = len(matrix[0])
     trans = []
 
@@ -19,8 +29,16 @@ def transpose(matrix):
     return trans
 
 
-# minor matrix of a matrix
 def minor_matrix(matrix, row_index, col_index):
+    """
+    This function calculates the minor of a matrix for a given row and column
+    index. The matrix should be a square matrix, and the row and column
+    should be positive and smaller than the width and height of the matrix.
+    :param matrix: The matrix to calculate the minor
+    :param row_index: The row index of the minor to calculate
+    :param col_index: The column index of the minor to calculate
+    :return: The minor for the given row and column
+    """
     mnr = []
     xdim = len(matrix[0])
     ydim = len(matrix)
@@ -49,6 +67,11 @@ def minor_matrix(matrix, row_index, col_index):
 
 
 def determinant(matrix):
+    """
+    This function calculates the determinant of a square matrix.
+    :param matrix: The matrix to find the determinant
+    :return: The determinant of the matrix
+    """
     xdim = len(matrix)
     ydim = len(matrix[0])
 
@@ -71,6 +94,12 @@ def determinant(matrix):
 
 # inverse of matrix
 def inverse(matrix):
+    """
+    This function inverts a square matrix. If the matrix is not square,
+    it returns nothing
+    :param matrix: The matrix to invert
+    :return: The inverse of the matrix passed as parameter
+    """
     xdim = len(matrix)
     ydim = len(matrix[0])
 
@@ -102,8 +131,13 @@ def inverse(matrix):
     return ct
 
 
-# scalar multiplication
 def scalar_multiply(matrix, const):
+    """
+    This function makes the scalar multiplication between a matrix and a number.
+    :param matrix: The matrix to multiply
+    :param const: The constant number which will multiply the matrix
+    :return: The result of the multiplication
+    """
     for i in range(len(matrix)):
         for j in range(len(matrix[0])):
             matrix[i][j] *= const
@@ -111,51 +145,53 @@ def scalar_multiply(matrix, const):
     return matrix
 
 
-# multiplication
+def multiply(matrix1, matrix2):
+    """
+    This function multiplies two matrices. In order to multiply, it makes sure
+    the width of matrix1 is the same as the height of matrix2
+    :param matrix1: Left matrix
+    :param matrix2: Right matrix
+    :return: The product matrix of the multiplication
+    """
 
-def multiply(A, B):
-    Aj = len(A[0])
-    Bi = len(B)
+    width1 = len(matrix1[0])
+    height2 = len(matrix2)
 
-    if Aj != Bi:
+    if width1 != height2:
         print("Cant multiply these matrices")
         return
 
-    length = len(A)
-    width = len(B[0])
+    length = len(matrix1)
+    width = len(matrix2[0])
 
-    C = []  # product matrix
+    product_matrix = []  # product_matrix = matrix_A * matrix_B
 
     for i in range(length):
-        cRow = []  # one row of C
+        product_row = []  # one row of product_matrix
         for j in range(width):
             val = 0
 
-            for a in range(Bi):
-                val += A[i][a] * B[a][j]
+            for a in range(height2):
+                val += matrix1[i][a] * matrix2[a][j]
 
-            cRow.append(val)
+            product_row.append(val)
 
-        C.append(cRow)
+        product_matrix.append(product_row)
 
-    return C
+    return product_matrix
 
 
-# linear system solver
-#
-# This method solves a system of linear equations of the standard form Ax = b, where:
-# A is the matrix of the coefficients
-# x is the column vector of the variables
-# b is the column vector of the results
-# This method returns the x column vector's values
-#
-
-def linear_solver(A, b):
-    if len(A) == 2:
-        y = (b[0][0] * A[1][0] - A[0][0] * b[1][0]) / (-A[0][0] * A[1][1] + A[1][0] * A[0][1])
-        x = (b[1][0] - A[1][1] * y) / A[1][0]
+def linear_solver(coef, const):
+    """
+    This function solves a system of linear equations of the standard form Ax = B
+    :param coef: The matrix of coefficients, A
+    :param const: The matrix of constant terms, B
+    :returns: A list of the solutions
+    """
+    if len(coef) == 2:
+        y = (const[0][0] * coef[1][0] - coef[0][0] * const[1][0]) / (-coef[0][0] * coef[1][1] + coef[1][0] * coef[0][1])
+        x = (const[1][0] - coef[1][1] * y) / coef[1][0]
 
         return [x, y]
 
-    return multiply(inverse(A), b)
-
+    return multiply(inverse(coef), const)

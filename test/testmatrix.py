@@ -33,5 +33,17 @@ class testmatrix(unittest.TestCase):
         self.assertEqual(0, 1)
 
     def test_solve_system_of_linear_equations(self):
-        #TODO: write this test method
-        self.assertEqual(0, 1)
+        coef = [[4, 1, -1],
+                [3, 3, 0],
+                [-1, 0, 3]]
+
+        const = [[16],
+                 [5],
+                 [-1]]
+
+        real_solution = [[5.25],
+                         [-3.5833333333333335],
+                         [1.4166666666666667]]
+
+        solution = pymatrix.linear_solver(coef, const)
+        self.assertEqual(solution, real_solution)
