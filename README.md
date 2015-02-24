@@ -20,6 +20,14 @@ Numerical integration:
 
 
 ##ToDo
-  - Add more numerical integration formulas
+  - Add more numerical integration formulas, such as the Simpson rule
   - Add methods for solving equations
   - Add methods of interpolation
+
+
+##Testing
+All the tests go into the folder named `test`. To run the tests, execute:
+
+```bash
+python -m unittest discover -s test
+```
