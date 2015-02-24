@@ -39,18 +39,16 @@ def minor_matrix(matrix, row_index, col_index):
     :param col_index: The column index of the minor to calculate
     :return: The minor for the given row and column
     """
-    mnr = []
+    minor = []
     xdim = len(matrix[0])
     ydim = len(matrix)
     if xdim != ydim:
-        print("You should pass a square matrix")
-        return
+        raise ValueError("You should pass a square matrix")
 
     dim = xdim
 
     if row_index >= dim or col_index >= dim or row_index < 0 or col_index < 0:
-        print("Invalid row or column")
-        return
+        raise ValueError("Invalid row or column")
 
     for i in range(dim):
         row = []
@@ -61,9 +59,9 @@ def minor_matrix(matrix, row_index, col_index):
             row.append(matrix[i][j])
 
         if len(row) != 0:
-            mnr.append(row)
+            minor.append(row)
 
-    return mnr
+    return minor
 
 
 def determinant(matrix):
@@ -76,8 +74,7 @@ def determinant(matrix):
     ydim = len(matrix[0])
 
     if xdim != ydim:
-        print("Please enter a square matrix")
-        return
+        raise ValueError("You should pass a square matrix")
 
     dim = xdim
     det = 0
@@ -104,15 +101,13 @@ def inverse(matrix):
     ydim = len(matrix[0])
 
     if xdim != ydim:
-        print("Please enter a square matrix")
-        return
+        raise ValueError("You should pass a square matrix")
 
     dim = xdim
     denom = determinant(matrix)
 
     if denom == 0:
-        print("No inverse matrix")
-        return
+        raise ValueError("The determinant is 0. Can't invert matrix")
 
     cofactors = []  # the matrix of cofactors
     for i in range(dim):
@@ -158,8 +153,7 @@ def multiply(matrix1, matrix2):
     height2 = len(matrix2)
 
     if width1 != height2:
-        print("Cant multiply these matrices")
-        return
+        raise ValueError("Can't multiply these matrices")
 
     length = len(matrix1)
     width = len(matrix2[0])

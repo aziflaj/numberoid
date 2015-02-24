@@ -2,7 +2,7 @@ import src.matrix.pymatrix as pymatrix
 import unittest
 
 
-class testmatrix(unittest.TestCase):
+class TestMatrix(unittest.TestCase):
 
     def test_transpose_matrix(self):
         a = [[1, 2],
@@ -13,23 +13,30 @@ class testmatrix(unittest.TestCase):
         self.assertEqual(pymatrix.transpose(a), at)
 
     def test_calculate_minor_of_matrix(self):
-        #TODO: write this test method
+        # TODO: write this test method
         self.assertEqual(0, 1)
 
+    def test_minor_throws_value_error(self):
+        matrix = [[2, 3],
+                  [3, 4],
+                  [4, 5]]
+
+        self.assertRaises(ValueError, pymatrix.minor_matrix, matrix, 0, 0)
+
     def test_determinant(self):
-        #TODO: write this test method
+        # TODO: write this test method
         self.assertEqual(0, 1)
 
     def test_inverse_of_matrix(self):
-        #TODO: write this test method
+        # TODO: write this test method
         self.assertEqual(0, 1)
 
     def test_scalar_multiplication(self):
-        #TODO: write this test method
+        # TODO: write this test method
         self.assertEqual(0, 1)
 
     def test_matrix_multiplication(self):
-        #TODO: write this test method
+        # TODO: write this test method
         self.assertEqual(0, 1)
 
     def test_solve_system_of_linear_equations(self):
