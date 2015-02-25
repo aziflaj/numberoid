@@ -39,27 +39,21 @@ def minor_matrix(matrix, row_index, col_index):
     :param col_index: The column index of the minor to calculate
     :return: The minor for the given row and column
     """
-    minor = []
-    xdim = len(matrix[0])
-    ydim = len(matrix)
-    if xdim != ydim:
+    minor = matrix
+    num_rows = len(matrix)
+    num_cols = len(matrix[0])
+    if num_cols != num_rows:
         raise ValueError("You should pass a square matrix")
 
-    dim = xdim
-
-    if row_index >= dim or col_index >= dim or row_index < 0 or col_index < 0:
+    if row_index > num_rows or col_index > num_cols or row_index < 1 or col_index < 1:
         raise ValueError("Invalid row or column")
 
-    for i in range(dim):
-        row = []
-        for j in range(dim):
-            if i == col_index or j == row_index:
-                continue
+    # remove the specified row
+    minor.pop(row_index - 1)
 
-            row.append(matrix[i][j])
-
-        if len(row) != 0:
-            minor.append(row)
+    # remove the specified column
+    for row in minor:
+        row.pop(col_index - 1)
 
     return minor
 
@@ -89,7 +83,6 @@ def determinant(matrix):
     return det
 
 
-# inverse of matrix
 def inverse(matrix):
     """
     This function inverts a square matrix. If the matrix is not square,
