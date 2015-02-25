@@ -3,6 +3,19 @@ import unittest
 
 
 class TestMatrix(unittest.TestCase):
+
+    def setUp(self):
+        self.matrix_3x3 = [[1, 2, 3],
+                           [2, 8, 6],
+                           [19, 3, 21]]
+
+        self.matrix_2x2 = [[4, 3],
+                           [3, 2]]
+
+        self.zero_determinant_matrix = [[1, 2, 3],
+                                        [2, 4, 6],
+                                        [19, 3, 21]]
+
     def test_transpose_matrix(self):
         matrix = [[1, 2],
                   [3, 4]]
@@ -13,14 +26,12 @@ class TestMatrix(unittest.TestCase):
         self.assertEqual(pymatrix.transpose(matrix), transposed)
 
     def test_calculate_minor_of_3x3_matrix(self):
-        matrix = [[1, 2, 3],
-                  [2, 4, 6],
-                  [19, 3, 21]]
+        matrix = self.zero_determinant_matrix
 
-        minor_1x2 = [[1, 2],
-                     [19, 3]]
+        minor_matrix_1x2 = [[2, 6],
+                            [19, 21]]
 
-        self.assertEqual(pymatrix.minor_matrix(matrix, 1, 2), minor_1x2)
+        self.assertEqual(pymatrix.minor_matrix(matrix, 1, 2), minor_matrix_1x2)
 
     def test_minor_throws_value_error(self):
         matrix = [[2, 3],
@@ -30,18 +41,10 @@ class TestMatrix(unittest.TestCase):
         self.assertRaises(ValueError, pymatrix.minor_matrix, matrix, 0, 0)
 
     def test_determinant_equals_0(self):
-        matrix = [[1, 2, 3],
-                  [2, 4, 6],
-                  [19, 3, 21]]
-
-        self.assertEqual(pymatrix.determinant(matrix), 0)
+        self.assertEqual(pymatrix.determinant(self.zero_determinant_matrix), 0)
 
     def test_nonzero_determinant(self):
-        matrix = [[1, 2, 3],
-                  [2, 8, 6],
-                  [19, 3, 21]]
-
-        self.assertEqual(pymatrix.determinant(matrix), -144)
+        self.assertEqual(pymatrix.determinant(self.matrix_3x3), -144)
 
     def test_determinant_of_non_square(self):
         matrix = [[1, 2, 3],
@@ -51,6 +54,8 @@ class TestMatrix(unittest.TestCase):
 
         self.assertRaises(ValueError, pymatrix.determinant, matrix)
 
+    # Test inverse function
+
     def test_inverse_of_unit_matrix(self):
         matrix = [[1, 0, 0],
                   [0, 1, 0],
@@ -58,16 +63,24 @@ class TestMatrix(unittest.TestCase):
 
         self.assertEqual(pymatrix.inverse(matrix), matrix)
 
-    def test_inverse_of_matrix(self):
-        matrix = [[4, 3],
-                  [3, 2]]
+    def test_inverse_of_2x2_matrix(self):
+        inverse_of_2x2 = [[-2, 3],
+                          [3, -4]]
 
-        inverse = [[-2, 3],
-                   [3, -4]]
+        self.assertEqual(pymatrix.inverse(self.matrix_2x2), inverse_of_2x2)
 
-        self.assertEqual(pymatrix.inverse(matrix), inverse)
+    def test_inverse_of_3x3_matrix(self):
+        matrix = [[1, 2, 3],
+                  [0, 1, 4],
+                  [5, 6, 0]]
 
-    def test_inverse_of_nonsquare_matrix(self):
+        inverse_3x3 = [[-24, 18, 5],
+                       [20, -15, -4],
+                       [-5, 4, 1]]
+
+        self.assertEqual(pymatrix.inverse(matrix), inverse_3x3)
+
+    def test_inverse_of_non_square_matrix(self):
         matrix = [[1, 2, 3],
                   [2, 4, 6],
                   [19, 3, 21],
@@ -76,11 +89,9 @@ class TestMatrix(unittest.TestCase):
         self.assertRaises(ValueError, pymatrix.inverse, matrix)
 
     def test_inverse_of_matrix_with_zero_determinant(self):
-        matrix = [[1, 2, 3],
-                  [2, 4, 6],
-                  [19, 3, 21]]
+        self.assertRaises(ValueError, pymatrix.inverse, self.zero_determinant_matrix)
 
-        self.assertRaises(ValueError, pymatrix.inverse, matrix)
+    # End of Tests for inverse
 
     def test_scalar_multiplication(self):
         matrix = [[1, 3, 0],
