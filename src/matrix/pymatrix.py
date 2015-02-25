@@ -73,6 +73,9 @@ def determinant(matrix):
     dim = num_cols
     det = 0
 
+    if dim == 1:
+        return matrix[0][0]
+
     if dim == 2:
         det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
         return det
@@ -105,21 +108,21 @@ def inverse(matrix):
     if denom == 0:
         raise ValueError("The determinant is 0. Can't invert matrix")
 
-    cofactors = []  # the matrix of cofactors
+    cofactors = []  # the matrix of cofactors, transposed
     for i in range(dim):
         cofactor_row = []
         for j in range(dim):
-            minor_det = determinant(minor_matrix(matrix, j, i)) * math.pow(-1, i + j)
+            m_copy = copy.deepcopy(matrix)
+            minor = minor_matrix(m_copy, j+1, i+1)
+            minor_det = determinant(minor) * math.pow(-1, i + j)
             cofactor_row.append(minor_det)
 
         cofactors.append(cofactor_row)
 
-    ct = transpose(cofactors)
+    # multiply every cofactor with 1/denom
+    scalar_multiply(cofactors, 1 / denom)
 
-    # multiply every ct item with 1/denom
-    scalar_multiply(ct, 1 / denom)
-
-    return ct
+    return cofactors
 
 
 def scalar_multiply(matrix, const):
