@@ -1,11 +1,11 @@
 import math
+import copy
 
 
 def print_matrix(matrix):
     """
     This function prettyprints a matrix
     :param matrix: The matrix to prettyprint
-    :return: All the values stored into the matrix
     """
     for i in range(len(matrix)):
         print(matrix[i])
@@ -17,10 +17,10 @@ def transpose(matrix):
     :param matrix: The matrix to transpose
     :return: The transposed matrix
     """
-    cols = len(matrix[0])
+    num_cols = len(matrix[0])
     trans = []
 
-    for i in range(cols):
+    for i in range(num_cols):
         temp = []
         for row in matrix:
             temp.append(row[i])
@@ -61,24 +61,27 @@ def minor_matrix(matrix, row_index, col_index):
 def determinant(matrix):
     """
     This function calculates the determinant of a square matrix.
-    :param matrix: The matrix to find the determinant
+    :param m_copy: The matrix to find the determinant
     :return: The determinant of the matrix
     """
-    xdim = len(matrix)
-    ydim = len(matrix[0])
+    num_rows = len(matrix)
+    num_cols = len(matrix[0])
 
-    if xdim != ydim:
+    if num_cols != num_rows:
         raise ValueError("You should pass a square matrix")
 
-    dim = xdim
+    dim = num_cols
     det = 0
 
     if dim == 2:
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]
+        return det
 
     for j in range(dim):
-        d = determinant(minor_matrix(matrix, 0, j))
-        det += matrix[j][0] * d * math.pow(-1, j)
+        m_copy = copy.deepcopy(matrix)
+        minor = minor_matrix(m_copy, 1, j+1)
+        d = determinant(minor)
+        det += matrix[0][j] * d * math.pow(-1, j)
 
     return det
 
@@ -90,13 +93,13 @@ def inverse(matrix):
     :param matrix: The matrix to invert
     :return: The inverse of the matrix passed as parameter
     """
-    xdim = len(matrix)
-    ydim = len(matrix[0])
+    num_rows = len(matrix)
+    num_cols = len(matrix[0])
 
-    if xdim != ydim:
+    if num_rows != num_cols:
         raise ValueError("You should pass a square matrix")
 
-    dim = xdim
+    dim = num_rows
     denom = determinant(matrix)
 
     if denom == 0:
