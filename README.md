@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/aziflaj/numberoid.svg?branch=master)](https://travis-ci.org/aziflaj/numberoid)
+
 #README
 **Numberoid** is a collection of some Python functions that may be used to solve simple Numerical Analysis problems.
 
